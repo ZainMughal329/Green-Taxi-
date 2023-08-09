@@ -49,7 +49,7 @@ dependencies:
   fluttertoast:
   shared_preferences:
   firebase_storage:
-  location: ^5.0.2+1
+  location:
 
 dev_dependencies:
   flutter_test:
