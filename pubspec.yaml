@@ -42,6 +42,7 @@ dependencies:
   app_settings:
   flutter_svg:
   cloud_firestore:
+  google_maps_flutter:
   get:
   intl:
   http:
