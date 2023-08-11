@@ -36,7 +36,6 @@ class _LoginViewState extends State<LoginView> {
                    // Null check
                    if (code != null) controller.state.code = code;
                    setState(() {
-
                    });
                  }
              //         ()async {

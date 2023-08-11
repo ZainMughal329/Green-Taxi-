@@ -2,7 +2,10 @@ import 'package:fl_country_code_picker/fl_country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+// import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:green_taxi/utilities/routes/route_name.dart';
 import 'package:green_taxi/utilities/utils/app_constants.dart';
 import 'package:green_taxi/utilities/widgets/text_widget.dart';
 
@@ -14,7 +17,7 @@ Widget LoginWidget(CountryCode code , Function changeCountry) {
       children: [
         TextWidget(text: AppConstants.helloNiceToMeetYou),
         SizedBox(
-          height: 5.h,
+          height:  5.h,
         ),
         TextWidget(
             text: AppConstants.getMovingWithGreenTaxi,
@@ -73,6 +76,9 @@ Widget LoginWidget(CountryCode code , Function changeCountry) {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.h),
                   child: TextField(
+                    onTap: (){
+                      Get.toNamed(RoutesNames.otpscreen);
+                    },
                     decoration: InputDecoration(
                       hintStyle: GoogleFonts.poppins(
                           fontWeight: FontWeight.normal, fontSize: 12),

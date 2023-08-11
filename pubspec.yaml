@@ -52,6 +52,7 @@ dependencies:
   shared_preferences:
   firebase_storage:
   location:
+  pinput:
   fl_country_code_picker: ^0.1.5
 
 dev_dependencies:

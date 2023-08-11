@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:green_taxi/utilities/routes/route_name.dart';
 
 import '../../screens/login/index.dart';
+import '../../screens/otp_verification_screen/view.dart';
 
 class AppPages {
   static final List<GetPage> routes = [
@@ -12,6 +13,7 @@ class AppPages {
       page: () => LoginView(),
       binding: LoginBindings(),
     ),
+    GetPage(name: RoutesNames.otpscreen, page: ()=>OTPverificationScreen())
     // GetPage(
     //   name: RoutesNames.signUpScreen,
     //   page: () => SignUpScreen(),
