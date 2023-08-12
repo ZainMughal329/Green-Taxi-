@@ -18,7 +18,6 @@ class MyApp extends StatelessWidget {
         builder: (context, child) {
           return  GetMaterialApp(
           title: 'Flutter Demo',
-
           initialRoute: RoutesNames.loginScreen,
           getPages: AppPages.routes,
         );
