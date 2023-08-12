@@ -37,7 +37,8 @@ class _LoginViewState extends State<LoginView> {
                    if (code != null) controller.state.code = code;
                    setState(() {
                    });
-                 }
+                 },
+               controller.onSubmit,
              //         ()async {
              // final code = await controller.state.countryPicker.showPicker(context: context);
              // // Null check

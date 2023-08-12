@@ -5,4 +5,14 @@ class LoginState {
   // Rx<CountryCode> code = CountryCode(name: 'Pakistan', code: 'PK', dialCode: '+92').obs;
 
   CountryCode code = CountryCode(name: 'Pakistan', code: 'PK', dialCode: '+92');
+
+  String userUid = '';
+  var verId = '';
+  int? resendTokenId;
+  bool phoneAuthCheck = false;
+  dynamic credentials;
+
+
+
+
 }

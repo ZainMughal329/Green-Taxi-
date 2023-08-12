@@ -25,42 +25,41 @@ Widget OTPVerificationWidget() {
               fontWeight: FontWeight.bold,
               fontSize: 22.sp),
           SizedBox(
-            height: 40.h,
+            height: 20.h,
           ),
           
           Container(
+            // height: 50.h,
+            width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  spreadRadius: 3,
-                  blurRadius: 3
-                )
-              ],
+              // color: Colors.white,
+              // boxShadow: [
+              //   BoxShadow(
+              //     color: Colors.black.withOpacity(0.05),
+              //     spreadRadius: 3,
+              //     blurRadius: 3
+              //   )
+              // ],
               borderRadius: BorderRadius.circular(8)
             ),
             child: RoundWithShadow(),
           ),
           SizedBox(
-            height: 5,
+            height: 20.h,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40.w),
-            child: RichText(
-              textAlign: TextAlign.start,
-              text: TextSpan(
-                style: TextStyle(fontSize: 12, color: Colors.black),
-                children: [
-                  TextSpan(
-                    text: AppConstants.resendCode + " ",
-                  ),
-                  TextSpan(
-                    text: "10 second",
-                    style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+          RichText(
+            textAlign: TextAlign.start,
+            text: TextSpan(
+              style: TextStyle(fontSize: 12, color: Colors.black),
+              children: [
+                TextSpan(
+                  text: AppConstants.resendCode + " ",
+                ),
+                TextSpan(
+                  text: "10 second",
+                  style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
           ),
         ],

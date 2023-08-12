@@ -3,13 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 // import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:green_taxi/screens/login/otp_verification_screen.dart';
 import 'package:green_taxi/utilities/routes/route_name.dart';
 import 'package:green_taxi/utilities/utils/app_constants.dart';
 import 'package:green_taxi/utilities/widgets/text_widget.dart';
 
-Widget LoginWidget(CountryCode code , Function changeCountry) {
+Widget LoginWidget(CountryCode code, Function changeCountry,Function onSubmit) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: 20.w),
     child: Column(
@@ -17,7 +19,7 @@ Widget LoginWidget(CountryCode code , Function changeCountry) {
       children: [
         TextWidget(text: AppConstants.helloNiceToMeetYou),
         SizedBox(
-          height:  5.h,
+          height: 5.h,
         ),
         TextWidget(
             text: AppConstants.getMovingWithGreenTaxi,
@@ -49,14 +51,20 @@ Widget LoginWidget(CountryCode code , Function changeCountry) {
                     onTap: () => changeCountry(),
                     child: Row(
                       children: [
-                        SizedBox(width: 5.w,),
+                        SizedBox(
+                          width: 5.w,
+                        ),
                         Expanded(
                           child: Container(
                             child: code.flagImage(),
                           ),
                         ),
-                        SizedBox(width: 5.w,),
-                        TextWidget(text: code.dialCode.toString(),),
+                        SizedBox(
+                          width: 5.w,
+                        ),
+                        TextWidget(
+                          text: code.dialCode.toString(),
+                        ),
                         Icon(
                           Icons.keyboard_arrow_down_outlined,
                           color: Colors.black.withOpacity(0.4),
@@ -76,9 +84,10 @@ Widget LoginWidget(CountryCode code , Function changeCountry) {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.h),
                   child: TextField(
-                    onTap: (){
-                      Get.toNamed(RoutesNames.otpscreen);
-                    },
+                    onSubmitted: (String? input) => onSubmit(input),
+                    // onTap: () {
+                    //   Get.to(() => OTPverificationScreen(),);
+                    // },
                     decoration: InputDecoration(
                       hintStyle: GoogleFonts.poppins(
                           fontWeight: FontWeight.normal, fontSize: 12),
