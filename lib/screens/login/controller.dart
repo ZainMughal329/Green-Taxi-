@@ -53,7 +53,9 @@ class LoginController extends GetxController {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: state.verId, smsCode: otpNumber);
     print('Logged in');
-    await FirebaseAuth.instance.signInWithCredential(credential);
+    await FirebaseAuth.instance.signInWithCredential(credential).then((value){
+      decideRoute();
+    });
   }
   decideRoute() {
     User? user = FirebaseAuth.instance.currentUser;

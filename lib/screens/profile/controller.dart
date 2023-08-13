@@ -7,12 +7,10 @@ import 'package:green_taxi/screens/profile/state.dart';
 import 'package:green_taxi/utilities/routes/route_name.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-
 class ProfileController extends GetxController {
   final state = ProfileState();
   ProfileController();
 //  Function to pick image;
-
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instance;
 
@@ -98,6 +96,29 @@ class ProfileController extends GetxController {
       print('Download url is : ' + value.toString());
     });
     return userProfileImage;
+  }
+  storeUserInfo(String name,String home ,String business,String shop) async {
+    print('object');
+    setLoading(true);
+    String url = await uploadImage(File(image!.path).absolute);
+    print('url is : ' + url.toString());
+    String uid = FirebaseAuth.instance.currentUser!.uid.toString();
+    print('object11');
+    FirebaseFirestore.instance.collection('users').doc(uid).set({
+      'image': url,
+      'name': state.nameController.value.text,
+      'home_address': state.homeController.value.text,
+      'business_address': state.businessController.value.text,
+      'shopping_address': state.shopController.value.text,
+    }).then((value) {
+      print('object1122');
+      state.nameController.value.clear();
+      state.businessController.value.clear();
+      state.homeController.value.clear();
+      state.shopController.value.clear();
+      Get.toNamed(RoutesNames.HomeScreen);
+      setLoading(false);
+    });
   }
   showUserInfo() async {
     print('object');
