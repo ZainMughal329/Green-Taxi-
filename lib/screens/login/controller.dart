@@ -41,7 +41,6 @@ class LoginController extends GetxController {
       print('Error occurs : ' + e.toString());
     }
   }
-
   onSubmit(String? input) {
     Get.to(
       () => OTPverificationScreen(
@@ -49,7 +48,6 @@ class LoginController extends GetxController {
       ),
     );
   }
-
   verifyOtp(String otpNumber) async {
     print('Called');
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
@@ -57,10 +55,8 @@ class LoginController extends GetxController {
     print('Logged in');
     await FirebaseAuth.instance.signInWithCredential(credential);
   }
-
   decideRoute() {
     User? user = FirebaseAuth.instance.currentUser;
-
     if (user != null) {
       FirebaseFirestore.instance.collection('users').doc(user.uid).get().then(
         (value) {

@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +10,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class ProfileController extends GetxController {
   final state = ProfileState();
-
   ProfileController();
-
 //  Function to pick image;
 
   firebase_storage.FirebaseStorage storage =
@@ -102,7 +99,6 @@ class ProfileController extends GetxController {
     });
     return userProfileImage;
   }
-
   showUserInfo() async {
     print('object');
     setLoading(true);
@@ -110,7 +106,6 @@ class ProfileController extends GetxController {
     print('url is : ' + url.toString());
     String uid = FirebaseAuth.instance.currentUser!.uid.toString();
     print('object11');
-
     FirebaseFirestore.instance.collection('users').doc(uid).set({
       'image': url,
       'name': state.nameController.value.text,

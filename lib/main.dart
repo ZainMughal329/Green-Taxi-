@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import 'package:green_taxi/screens/login/controller.dart';
 import 'package:green_taxi/utilities/routes/route_name.dart';
 import 'package:green_taxi/utilities/routes/routes.dart';
-
-
 void main()async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
