@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +11,7 @@ Widget greenIntroWidgetWithOutLogo(){
   return Container(
     width: Get.width,
     decoration: BoxDecoration(
+
       image: DecorationImage(image: AssetImage('assets/mask.png'),
       fit: BoxFit.fill),
     ),
@@ -20,7 +22,7 @@ Widget greenIntroWidgetWithOutLogo(){
       margin: EdgeInsets.only(bottom: Get.height*0.05),
       child: Center(
         child: Text(
-          "Profile settings",style: GoogleFonts.poppins(fontSize: 24,fontWeight: FontWeight.w200),
+          "Profile settings",style: GoogleFonts.poppins(fontSize: 24,fontWeight: FontWeight.w500 , color: Colors.white),
         )
       ),
     ),

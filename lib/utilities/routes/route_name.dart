@@ -1,4 +1,7 @@
 class RoutesNames {
   static const loginScreen = "/loginPage";
-  static const signUpScreen = "/signUpScreen";
+  static const profileScreen = "/profileScreen";
+  static const HomeScreen = "/homeScreen";
+
+
 }

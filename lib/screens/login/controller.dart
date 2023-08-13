@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:green_taxi/screens/login/otp_verification_screen.dart';
 import 'package:green_taxi/screens/login/state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:green_taxi/utilities/routes/route_name.dart';
 
 class LoginController extends GetxController {
   final state = LoginState();
@@ -13,6 +15,7 @@ class LoginController extends GetxController {
 
   phoneAuth(String phone) async {
     try {
+      print('Phone Number is : ' + phone);
       state.credentials = null;
       await FirebaseAuth.instance.verifyPhoneNumber(
           phoneNumber: phone,
@@ -53,5 +56,21 @@ class LoginController extends GetxController {
         verificationId: state.verId, smsCode: otpNumber);
     print('Logged in');
     await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  decideRoute() {
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      FirebaseFirestore.instance.collection('users').doc(user.uid).get().then(
+        (value) {
+          if (value.exists) {
+            Get.toNamed(RoutesNames.HomeScreen);
+          } else {
+            Get.toNamed(RoutesNames.profileScreen);
+          }
+        },
+      );
+    }
   }
 }

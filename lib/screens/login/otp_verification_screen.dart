@@ -18,7 +18,7 @@ class OTPverificationScreen extends StatefulWidget {
 
 
 class _OTPverificationScreenState extends State<OTPverificationScreen> {
-  final con = Get.put(LoginController());
+  final con = Get.find<LoginController>();
   @override
   void initState() {
     // TODO: implement initState

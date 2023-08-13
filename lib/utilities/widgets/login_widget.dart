@@ -84,6 +84,7 @@ Widget LoginWidget(CountryCode code, Function changeCountry,Function onSubmit) {
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 10.h),
                   child: TextField(
+                    keyboardType: TextInputType.phone,
                     onSubmitted: (String? input) => onSubmit(input),
                     // onTap: () {
                     //   Get.to(() => OTPverificationScreen(),);
