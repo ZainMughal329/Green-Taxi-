@@ -215,7 +215,6 @@ ReusedTextFormField(String tittle, IconData iconData, TextInputAction action,
     ],
   );
 }
-
 Widget greenButton(String tittle, Function, onPrssed) {
   return MaterialButton(
     minWidth: Get.width,
