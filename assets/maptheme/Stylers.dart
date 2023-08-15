@@ -1,6 +1,6 @@
 class Stylers {
   Stylers({
-      this.color,});
+      required this.color,});
 
   Stylers.fromJson(dynamic json) {
     color = json['color'];

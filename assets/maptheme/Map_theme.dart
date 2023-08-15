@@ -2,8 +2,8 @@ import 'Stylers.dart';
 
 class MapTheme {
   MapTheme({
-      this.elementType, 
-      this.stylers,});
+      required this.elementType,
+      required this.stylers,});
 
   MapTheme.fromJson(dynamic json) {
     elementType = json['elementType'];
