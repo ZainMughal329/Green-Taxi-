@@ -55,6 +55,8 @@ dependencies:
   location:
   pinput:
   fl_country_code_picker: ^0.1.5
+  flutter_google_places:
+  google_maps_webservice:
 
 dev_dependencies:
   flutter_test:
