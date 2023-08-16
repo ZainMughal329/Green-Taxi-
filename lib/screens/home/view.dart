@@ -1,14 +1,209 @@
-import 'dart:js';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:green_taxi/screens/home/controller.dart';
 import 'package:green_taxi/screens/home/state.dart';
 
 class HomeView extends GetView<HomeController> {
   HomeView({Key? key}) : super(key: key);
+
+  Widget buildTextField(BuildContext context) {
+    return Positioned(
+      top: 170,
+      left: 20,
+      right: 20,
+      child: Container(
+        width: Get.width,
+        height: 50,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  spreadRadius: 4,
+                  blurRadius: 10)
+            ],
+            borderRadius: BorderRadius.circular(8)),
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 15,
+          ),
+          child: TextFormField(
+            controller: controller.state.placeController,
+            readOnly: true,
+            onTap: () async {
+              Prediction? p =
+              await controller.showGoogleAutoComplete(context);
+              print('object43re');
+
+              String selectedPlace = p!.description.toString();
+
+              // destinationController.text = selectedPlace;
+              print('place:' + selectedPlace);
+              controller.state.placeController.text = selectedPlace;
+              // HomeState().showSourceField.value = true;
+            },
+            style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Color(0xffA7A7A7)),
+            decoration: InputDecoration(
+                hintStyle: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                hintText: 'Search for destination',
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Icon(
+                    Icons.search,
+                    // color: AppColors.greenColor,
+                  ),
+                ),
+                border: InputBorder.none),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTextFieldForSource() {
+    return Positioned(
+      top: 230,
+      left: 20,
+      right: 20,
+      child: Container(
+        width: Get.width,
+        height: 50,
+        decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  spreadRadius: 4,
+                  blurRadius: 10)
+            ],
+            borderRadius: BorderRadius.circular(8)),
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 15,
+          ),
+          child: TextFormField(
+            controller: HomeState().sourceController,
+            readOnly: true,
+            onTap: () {
+              Get.bottomSheet(Container(
+                height: Get.height + 0.5,
+                width: Get.width,
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8),
+                        topRight: Radius.circular(8)),
+                    color: Colors.white
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                  ],
+                ),
+              ));
+            },
+            style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: Color(0xffA7A7A7)),
+            decoration: InputDecoration(
+                hintStyle: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+                hintText: 'Form',
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Icon(
+                    Icons.search,
+                    // color: AppColors.greenColor,
+                  ),
+                ),
+                border: InputBorder.none),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildLocationIcon() {
+    return Align(
+      alignment: Alignment.bottomRight,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 30, right: 8),
+        child: CircleAvatar(
+          radius: 20,
+          backgroundColor: Colors.green,
+          child: Center(
+            child: Icon(
+              Icons.my_location,
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  Widget buildNotificationIcon() {
+    return Align(
+      alignment: Alignment.bottomLeft,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: 30, left: 8),
+        child: CircleAvatar(
+          radius: 20,
+          backgroundColor: Colors.white,
+          child: Center(
+            child: Icon(
+              Icons.notifications,
+              color: Color(0xffC3CDD6),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildBottomSheet() {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Container(
+        width: Get.width * 0.6,
+        height: 20,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+          color: Colors.white,
+        ),
+        child: Center(
+          child: Container(
+            height: 4,
+            width: Get.width * 0.4,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: Colors.grey,
+            ),
+
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +228,11 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             buildProfileTile(),
-            Obx(()=>buildTextField(),
-            ),
-            HomeState().showSourceField.value? buildTextFieldForSource():Container(),
+             buildTextField(context),
+
+            HomeState().showSourceField.value
+                ? buildTextFieldForSource()
+                : Container(),
             buildLocationIcon(),
             buildNotificationIcon(),
             buildBottomSheet(),
@@ -102,194 +299,6 @@ Widget buildProfileTile() {
             ],
           )
         ],
-      ),
-    ),
-  );
-}
-
-Widget buildTextField() {
-  return Positioned(
-    top: 170,
-    left: 20,
-    right: 20,
-    child: Container(
-      width: Get.width,
-      height: 50,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                spreadRadius: 4,
-                blurRadius: 10)
-          ],
-          borderRadius: BorderRadius.circular(8)),
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 15,
-        ),
-        child: TextFormField(
-          controller: HomeState().placeController,
-          readOnly: true,
-          onTap: ()async{
-            String selectedPlace = await HomeController().showGoogleAutoComplete(context);
-            HomeState().placeController.text = selectedPlace;
-            HomeState().showSourceField.value=true;
-          },
-          style: GoogleFonts.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Color(0xffA7A7A7)),
-          decoration: InputDecoration(
-              hintStyle: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              hintText: 'Search for destination',
-              suffixIcon: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Icon(
-                  Icons.search,
-                  // color: AppColors.greenColor,
-                ),
-              ),
-              border: InputBorder.none),
-        ),
-      ),
-    ),
-  );
-}
-
-Widget buildTextFieldForSource() {
-  return Positioned(
-    top: 230,
-    left: 20,
-    right: 20,
-    child: Container(
-      width: Get.width,
-      height: 50,
-      decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                spreadRadius: 4,
-                blurRadius: 10)
-          ],
-          borderRadius: BorderRadius.circular(8)),
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: 15,
-        ),
-        child: TextFormField(
-          controller: HomeState().sourceController,
-          readOnly: true,
-          onTap: (){
-            Get.bottomSheet(Container(
-              height: Get.height+0.5,
-              width: Get.width,
-              padding: EdgeInsets.symmetric(horizontal:20,vertical: 10 ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(8),topRight: Radius.circular(8)),
-                color: Colors.white
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                ],
-              ),
-            ));
-
-          },
-          style: GoogleFonts.poppins(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Color(0xffA7A7A7)),
-          decoration: InputDecoration(
-              hintStyle: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              hintText: 'Form',
-              suffixIcon: Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Icon(
-                  Icons.search,
-                  // color: AppColors.greenColor,
-                ),
-              ),
-              border: InputBorder.none),
-        ),
-      ),
-    ),
-  );
-}
-Widget buildLocationIcon() {
-  return Align(
-    alignment: Alignment.bottomRight,
-    child: Padding(
-      padding: EdgeInsets.only(bottom: 30, right: 8),
-      child: CircleAvatar(
-        radius: 20,
-        backgroundColor: Colors.green,
-        child: Center(
-          child: Icon(
-            Icons.my_location,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-
-Widget buildNotificationIcon() {
-  return Align(
-    alignment: Alignment.bottomLeft,
-    child: Padding(
-      padding: EdgeInsets.only(bottom: 30, left: 8),
-      child: CircleAvatar(
-        radius: 20,
-        backgroundColor: Colors.white,
-        child: Center(
-          child: Icon(
-            Icons.notifications ,
-            color: Color(0xffC3CDD6),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-Widget buildBottomSheet() {
-  return Align(
-    alignment: Alignment.bottomCenter,
-    child: Container(
-      width: Get.width * 0.6,
-      height: 20,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(10),
-          topRight: Radius.circular(10),
-        ),
-        color: Colors.white,
-      ),
-      child: Center(
-        child: Container(
-          height: 4,
-          width: Get.width*0.4,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.grey,
-          ),
-
-        ),
       ),
     ),
   );
