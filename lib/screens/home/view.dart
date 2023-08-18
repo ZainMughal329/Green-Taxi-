@@ -35,8 +35,7 @@ class HomeView extends GetView<HomeController> {
             controller: controller.state.placeController,
             readOnly: true,
             onTap: () async {
-              Prediction? p =
-              await controller.showGoogleAutoComplete(context);
+              Prediction? p = await controller.showGoogleAutoComplete(context);
               print('object43re');
 
               String selectedPlace = p!.description.toString();
@@ -101,15 +100,14 @@ class HomeView extends GetView<HomeController> {
                 width: Get.width,
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8),
                         topRight: Radius.circular(8)),
-                    color: Colors.white
-                ),
+                    color: Colors.white),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  ],
+                  children: [],
                 ),
               ));
             },
@@ -157,7 +155,6 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-
   Widget buildNotificationIcon() {
     return Align(
       alignment: Alignment.bottomLeft,
@@ -177,7 +174,7 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget buildBottomSheet() {
+  Widget buildBottomSheet(BuildContext context) {
     return Align(
       alignment: Alignment.bottomCenter,
       child: Container(
@@ -198,7 +195,139 @@ class HomeView extends GetView<HomeController> {
               borderRadius: BorderRadius.circular(5),
               color: Colors.grey,
             ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "Select Your Location",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Home Address",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: Get.width,
+                  height: 50,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            spreadRadius: 4,
+                            blurRadius: 10),
+                      ]),
+                  child: Row(
+                    children:[
+                      Text(
+                        'NST, SARGODHA',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600),
+                        textAlign: TextAlign.start,
+                      ),
+                    ]
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "Business Address",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  width: Get.width,
+                  height: 50,
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            spreadRadius: 4,
+                            blurRadius: 10),
+                      ]),
+                  child: Row(
+                      children:[
+                        Text(
+                          'Rehman Plaza, SARGODHA',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600),
+                          textAlign: TextAlign.start,
+                        ),
+                      ]
+                  ),
+                ),
+                SizedBox(height: 20,),
+                InkWell(
+                  onTap: ()async{
+                    String place = await HomeController().showGoogleAutoComplete(context);
+                    HomeState().sourceController.text=place;
+                  },
+                  child: Center(
+                    child: Container(
+                      width: Get.width,
+                      height: 50,
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(0.04),
+                                spreadRadius: 4,
+                                blurRadius: 10),
+                          ]),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                          children:[
+                            Text(
+                              'Search For Address',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600),
+                              textAlign: TextAlign.start,
+                            ),
+                          ]
+                      ),
+                    ),
+                  ),
+                ),
 
+
+
+              ],
+            ),
           ),
         ),
       ),
@@ -228,14 +357,13 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             buildProfileTile(),
-             buildTextField(context),
-
+            buildTextField(context),
             HomeState().showSourceField.value
                 ? buildTextFieldForSource()
                 : Container(),
             buildLocationIcon(),
             buildNotificationIcon(),
-            buildBottomSheet(),
+            buildBottomSheet(context),
           ],
         ),
       ),

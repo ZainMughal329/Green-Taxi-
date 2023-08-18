@@ -24,52 +24,52 @@ class HomeController extends GetxController {
     );
   }
 
-  //function for auto search plces
-  // Future<String> showGoogleAutoComplete(BuildContext context) async {
-  //   showSourceField(true);
-  //   const KGoogleApiKey = "AIzaSyCtl32xoIW8c3x6HMuPPYRhU_iXQ_bAjpY";
-  //   print('object431');
-  //   Prediction? p = await PlacesAutocomplete.show(
-  //       context: context,
-  //       offset: 0,
-  //       radius: 1000,
-  //       strictbounds: false,
-  //       region: "pk",
-  //       language: "en",
-  //       mode: Mode.overlay,
-  //       apiKey: KGoogleApiKey,
-  //       components: [new Component(Component.country, "pk")],
-  //       types: [],
-  //       hint: "Search City",
-  //       onError: (err) {
-  //         print('Error is : ' + err.toString());
-  //       });
-  //   return p!.description.toString();
-  // }
-
-  Future<Prediction?> showGoogleAutoComplete(BuildContext context) async {
+  // function for auto search plces
+  Future<String> showGoogleAutoComplete(BuildContext context) async {
+    showSourceField(true);
+    const KGoogleApiKey = "AIzaSyCtl32xoIW8c3x6HMuPPYRhU_iXQ_bAjpY";
+    print('object431');
     Prediction? p = await PlacesAutocomplete.show(
-      offset: 0,
-      radius: 1000,
-      strictbounds: false,
-      region: "pk",
-      language: "en",
-      context: context,
-      mode: Mode.overlay,
-      apiKey: AppConstants.kGoogleApiKey,
-      components: [new Component(Component.country, "pk")],
-      types: [],
-      hint: "Search City",
-      onError: (err) {
-        print('Error' + err.status.toString());
-        print('Error : ' + err.predictions.toString());
-        print('Err : ' + err.toString());
-      }
-    );
-
-
-    return p;
+        context: context,
+        offset: 0,
+        radius: 1000,
+        strictbounds: false,
+        region: "pk",
+        language: "en",
+        mode: Mode.overlay,
+        apiKey: KGoogleApiKey,
+        components: [new Component(Component.country, "pk")],
+        types: [],
+        hint: "Search City",
+        onError: (err) {
+          print('Error is : ' + err.toString());
+        });
+    return p!.description.toString();
   }
+
+  // Future<Prediction?> showGoogleAutoComplete(BuildContext context) async {
+  //   Prediction? p = await PlacesAutocomplete.show(
+  //     offset: 0,
+  //     radius: 1000,
+  //     strictbounds: false,
+  //     region: "pk",
+  //     language: "en",
+  //     context: context,
+  //     mode: Mode.overlay,
+  //     apiKey: AppConstants.kGoogleApiKey,
+  //     components: [new Component(Component.country, "pk")],
+  //     types: [],
+  //     hint: "Search City",
+  //     onError: (err) {
+  //       print('Error' + err.status.toString());
+  //       print('Error : ' + err.predictions.toString());
+  //       print('Err : ' + err.toString());
+  //     }
+  //   );
+  //
+  //
+  //   return p;
+  // }
 
 
   showSourceField(bool value) {
