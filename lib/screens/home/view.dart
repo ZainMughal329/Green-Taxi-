@@ -35,11 +35,9 @@ class HomeView extends GetView<HomeController> {
             controller: controller.state.placeController,
             readOnly: true,
             onTap: () async {
-              Prediction? p = await controller.showGoogleAutoComplete(context);
+              dynamic p = await controller.showGoogleAutoComplete(context);
               print('object43re');
-
               String selectedPlace = p!.description.toString();
-
               // destinationController.text = selectedPlace;
               print('place:' + selectedPlace);
               controller.state.placeController.text = selectedPlace;
