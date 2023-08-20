@@ -6,6 +6,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:green_taxi/screens/home/controller.dart';
 import 'package:green_taxi/screens/home/state.dart';
+import 'package:green_taxi/utilities/routes/route_name.dart';
+
+import '../../utilities/utils/app_colors.dart';
 
 class HomeView extends GetView<HomeController> {
   HomeView({Key? key}) : super(key: key);
@@ -327,6 +330,257 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
+  Widget buildProfileTile() {
+    return Positioned(
+      top: 60,
+      left: 20,
+      right: 20,
+      child: Obx(
+        () => controller.myUser.value.name == null
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container(
+                width: Get.width,
+                child: Row(
+                  children: [
+                    controller.myUser.value.image == null
+                        ? Container(
+                            height: 50.h,
+                            width: 50.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.grey.withOpacity(0.5),
+                            ),
+                            child: Center(
+                              child: Icon(
+                                Icons.person,
+                                size: 30,
+                              ),
+                            ),
+                          )
+                        : Container(
+                            height: 50.h,
+                            width: 50.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: NetworkImage(
+                                      controller.myUser.value.image!),
+                                  fit: BoxFit.fill),
+                              // color: Colors.grey.withOpacity(0.5),
+                            ),
+                          ),
+                    SizedBox(
+                      width: 15,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Good Morning, ',
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 14),
+                              ),
+                              TextSpan(
+                                text: controller.myUser.value.name,
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                        Text(
+                          'Where are you going?',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                              color: Colors.black),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ),
+      ),
+    );
+  }
+
+  buildDrawer() {
+    return Drawer(
+      child: Column(
+        children: [
+          GestureDetector(
+            onTap: () {
+              Get.offAndToNamed(RoutesNames.viewProfileScreen);
+            },
+            child: Obx(() => Container(
+              height: 150,
+              child: DrawerHeader(
+                  child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  controller.myUser.value.image == null
+                      ? Container(
+                          height: 50.h,
+                          width: 50.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey.withOpacity(0.5),
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.person,
+                              size: 30,
+                            ),
+                          ),
+                        )
+                      : Container(
+                          height: 50.h,
+                          width: 50.w,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    controller.myUser.value.image!),
+                                fit: BoxFit.fill),
+                            // color: Colors.grey.withOpacity(0.5),
+                          ),
+                        ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Good Morning',
+                        style: GoogleFonts.poppins(
+                            color: Colors.black.withOpacity(0.28),
+                            fontSize: 12),
+                      ),
+                      Text(
+                        controller.myUser.value.name == null
+                            ? 'Mark'
+                            : controller.myUser.value.name!,
+                        style: GoogleFonts.poppins(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      )
+                    ],
+                  ),
+                ],
+              )),
+            )),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                buildDrawerItem(tittle: 'Payment History', onpresed: () {}),
+                buildDrawerItem(
+                    tittle: 'Ride History', onpresed: () {}, isVisible: true),
+                buildDrawerItem(tittle: 'Invite Friends', onpresed: () {}),
+                buildDrawerItem(tittle: 'Promo Codes', onpresed: () {}),
+                buildDrawerItem(tittle: 'Settings', onpresed: () {}),
+                buildDrawerItem(tittle: 'Support', onpresed: () {}),
+                buildDrawerItem(tittle: 'Log Out', onpresed: () {}),
+              ],
+            ),
+          ),
+          Spacer(),
+          Divider(),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            child: Column(
+              children: [
+                buildDrawerItem(
+                    tittle: 'Do More',
+                    onpresed: () {},
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    Color: Colors.black.withOpacity(0.15),
+                    height: 20),
+                SizedBox(
+                  height: 20,
+                ),
+                buildDrawerItem(
+                    tittle: 'Get Food Delivery',
+                    onpresed: () {},
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    Color: Colors.black.withOpacity(0.15),
+                    height: 20),
+                buildDrawerItem(
+                    tittle: 'Make Money Driving',
+                    onpresed: () {},
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    Color: Colors.black.withOpacity(0.15),
+                    height: 20),
+                buildDrawerItem(
+                    tittle: 'Rate Us On store',
+                    onpresed: () {},
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    Color: Colors.black.withOpacity(0.15),
+                    height: 20)
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  buildDrawerItem(
+      {required String tittle,
+      required Function onpresed,
+      Color = Colors.black,
+      double fontSize = 20,
+      FontWeight fontWeight = FontWeight.w700,
+      double height = 45,
+      bool isVisible = false}) {
+    return SizedBox(
+      height: height,
+      child: ListTile(
+        contentPadding: EdgeInsets.all(0),
+        dense: true,
+        onTap: () => onpresed(),
+        title: Row(
+          children: [
+            Text(
+              tittle,
+              style: GoogleFonts.poppins(
+                  fontSize: fontSize, fontWeight: fontWeight, color: Color),
+            ),
+            SizedBox(
+              width: 5,
+            ),
+            isVisible
+                ? CircleAvatar(
+                    backgroundColor: AppColors.greenColor,
+                    radius: 15,
+                    child: Text(
+                      '1',
+                      style: GoogleFonts.poppins(color: Colors.white),
+                    ),
+                  )
+                : Container()
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -357,152 +611,10 @@ class HomeView extends GetView<HomeController> {
                 : Container(),
             buildLocationIcon(),
             buildNotificationIcon(),
-            buildBottomSheet(context),
+            // buildBottomSheet(context),
           ],
         ),
       ),
     );
   }
-}
-
-buildDrawer() {
-  return Drawer(
-    child: Column(
-      children: [
-        Container(
-          height: 150,
-          child: DrawerHeader(
-              child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: AssetImage('assets/person.png'),
-                        fit: BoxFit.fill)),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Good Morning',
-                    style: GoogleFonts.poppins(
-                        color: Colors.black.withOpacity(0.28), fontSize: 14),
-                  ),
-                  Text(
-                    "Abdul Wahab",
-                    style: GoogleFonts.poppins(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black),
-                  )
-                ],
-              )
-            ],
-          )),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            children: [
-              HomeController().buildDrawerItem(tittle: 'Payment History', onpresed: (){}),
-              HomeController().buildDrawerItem(tittle: 'Ride History', onpresed: (){},isVisible: true),
-              HomeController().buildDrawerItem(tittle: 'Invite Friends', onpresed: (){}),
-              HomeController().buildDrawerItem(tittle: 'Promo Codes', onpresed: (){}),
-              HomeController().buildDrawerItem(tittle: 'Settings', onpresed: (){}),
-              HomeController().buildDrawerItem(tittle: 'Support', onpresed: (){}),
-              HomeController().buildDrawerItem(tittle: 'Log Out', onpresed: (){}),
-            ],
-          ),
-        ),
-        Spacer(),
-        Divider(),
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
-          child: Column(
-            children: [
-              HomeController().buildDrawerItem(tittle: 'Do More', onpresed: (){},fontSize: 12,
-              fontWeight: FontWeight.bold,Color: Colors.black.withOpacity(0.15),height: 20),
-              SizedBox(height: 20,),
-              HomeController().buildDrawerItem(tittle: 'Get Food Delivery', onpresed: (){},fontSize: 12,
-                  fontWeight: FontWeight.bold,Color: Colors.black.withOpacity(0.15),height: 20),
-              HomeController().buildDrawerItem(tittle: 'Make Money Driving', onpresed: (){},fontSize: 12,
-                  fontWeight: FontWeight.bold,Color: Colors.black.withOpacity(0.15),height: 20),
-              HomeController().buildDrawerItem(tittle: 'Rate Us On store', onpresed: (){},fontSize: 12,
-                  fontWeight: FontWeight.bold,Color: Colors.black.withOpacity(0.15),height: 20)
-            ],
-          ),
-        )
-      ],
-    ),
-  );
-}
-
-Widget buildProfileTile() {
-  return Positioned(
-    top: 60,
-    left: 20,
-    right: 20,
-    child: Container(
-      width: Get.width,
-      child: Row(
-        children: [
-          Container(
-            height: 50.h,
-            width: 50.w,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.grey.withOpacity(0.5),
-            ),
-            child: Center(
-              child: Icon(
-                Icons.person,
-                size: 30,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 15,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: 'Good Morning, ',
-                      style: TextStyle(color: Colors.black, fontSize: 14),
-                    ),
-                    TextSpan(
-                      text: 'Abdul Wahab',
-                      style: TextStyle(
-                          color: Colors.green,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
-              ),
-              Text(
-                'Where are you going?',
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    color: Colors.black),
-              )
-            ],
-          )
-        ],
-      ),
-    ),
-  );
 }

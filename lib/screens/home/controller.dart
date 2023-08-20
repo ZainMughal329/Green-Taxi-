@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,31 +10,12 @@ import 'package:green_taxi/screens/home/state.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:green_taxi/utilities/utils/app_colors.dart';
 
+import '../../utilities/models/user_model/user_model.dart';
 import '../../utilities/utils/app_constants.dart';
 class HomeController extends GetxController {
   final state = HomeState();
   HomeController();
-  buildDrawerItem({
-    required String tittle,required Function onpresed,Color =Colors.black,double fontSize=20,
-     FontWeight fontWeight = FontWeight.w700,double height =45, bool isVisible = false
-}){
-    return SizedBox(
-      height: height,
-      child: ListTile(
-        contentPadding: EdgeInsets.all(0),
-        dense: true,
-        onTap: ()=>onpresed(),
-        title: Row(
-          children: [
-            Text(tittle,style: GoogleFonts.poppins(fontSize: fontSize,fontWeight: fontWeight,color:Color ),),
-            SizedBox(width: 5,),
-            isVisible ? CircleAvatar(backgroundColor: AppColors.greenColor,radius: 15,
-            child: Text('1',style: GoogleFonts.poppins(color: Colors.white),),):Container()
-          ],
-        ),
-      ),
-    );
-  }
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -42,6 +25,7 @@ class HomeController extends GetxController {
         state.mapStyle = value;
       },
     );
+    getUserData();
   }
   // function for auto search plces
   Future<String> showGoogleAutoComplete(BuildContext context) async {
@@ -90,5 +74,18 @@ class HomeController extends GetxController {
   // }
   showSourceField(bool value) {
     state.showSourceField.value = value;
+  }
+
+
+
+  var myUser = UserModel().obs;
+
+  getUserData()  {
+    String uid =  FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance.collection('users').doc(uid).snapshots().listen((
+        event) {
+      myUser.value = UserModel.fromJson(event.data()!);
+    },);
+    print('Name is : ' + myUser.value.name.toString(),);
   }
 }

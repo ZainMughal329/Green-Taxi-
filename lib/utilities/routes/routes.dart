@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:green_taxi/screens/home/index.dart';
+import 'package:green_taxi/screens/view_profile/index.dart';
 import 'package:green_taxi/utilities/routes/route_name.dart';
 
 import '../../screens/login/index.dart';
@@ -21,6 +22,12 @@ class AppPages {
       name: RoutesNames.HomeScreen,
       page: () => HomeView(),
       binding: HomeBindings(),
+    ),
+
+    GetPage(
+      name: RoutesNames.viewProfileScreen,
+      page: () => ViewProfileScreen(),
+      binding: ViewProfileBindings(),
     ),
   ];
 }

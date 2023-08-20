@@ -3,5 +3,6 @@ class RoutesNames {
   static const profileScreen = "/profileScreen";
   static const HomeScreen = "/homeScreen";
 
+  static const viewProfileScreen = "/viewProfileScreen";
 
 }
