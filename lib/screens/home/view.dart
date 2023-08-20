@@ -233,18 +233,16 @@ class HomeView extends GetView<HomeController> {
                             spreadRadius: 4,
                             blurRadius: 10),
                       ]),
-                  child: Row(
-                    children:[
-                      Text(
-                        'NST, SARGODHA',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600),
-                        textAlign: TextAlign.start,
-                      ),
-                    ]
-                  ),
+                  child: Row(children: [
+                    Text(
+                      'NST, SARGODHA',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.start,
+                    ),
+                  ]),
                 ),
                 SizedBox(
                   height: 20,
@@ -272,24 +270,25 @@ class HomeView extends GetView<HomeController> {
                             spreadRadius: 4,
                             blurRadius: 10),
                       ]),
-                  child: Row(
-                      children:[
-                        Text(
-                          'Rehman Plaza, SARGODHA',
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600),
-                          textAlign: TextAlign.start,
-                        ),
-                      ]
-                  ),
+                  child: Row(children: [
+                    Text(
+                      'Rehman Plaza, SARGODHA',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.start,
+                    ),
+                  ]),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 InkWell(
-                  onTap: ()async{
-                    String place = await HomeController().showGoogleAutoComplete(context);
-                    HomeState().sourceController.text=place;
+                  onTap: () async {
+                    String place =
+                        await HomeController().showGoogleAutoComplete(context);
+                    HomeState().sourceController.text = place;
                   },
                   child: Center(
                     child: Container(
@@ -306,8 +305,8 @@ class HomeView extends GetView<HomeController> {
                                 blurRadius: 10),
                           ]),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                          children:[
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
                             Text(
                               'Search For Address',
                               style: TextStyle(
@@ -316,14 +315,10 @@ class HomeView extends GetView<HomeController> {
                                   fontWeight: FontWeight.w600),
                               textAlign: TextAlign.start,
                             ),
-                          ]
-                      ),
+                          ]),
                     ),
                   ),
                 ),
-
-
-
               ],
             ),
           ),
@@ -335,6 +330,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: buildDrawer(),
       body: SafeArea(
         child: Stack(
           children: [
@@ -367,6 +363,87 @@ class HomeView extends GetView<HomeController> {
       ),
     );
   }
+}
+
+buildDrawer() {
+  return Drawer(
+    child: Column(
+      children: [
+        Container(
+          height: 150,
+          child: DrawerHeader(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: AssetImage('assets/person.png'),
+                        fit: BoxFit.fill)),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Good Morning',
+                    style: GoogleFonts.poppins(
+                        color: Colors.black.withOpacity(0.28), fontSize: 14),
+                  ),
+                  Text(
+                    "Abdul Wahab",
+                    style: GoogleFonts.poppins(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  )
+                ],
+              )
+            ],
+          )),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 30),
+          child: Column(
+            children: [
+              HomeController().buildDrawerItem(tittle: 'Payment History', onpresed: (){}),
+              HomeController().buildDrawerItem(tittle: 'Ride History', onpresed: (){},isVisible: true),
+              HomeController().buildDrawerItem(tittle: 'Invite Friends', onpresed: (){}),
+              HomeController().buildDrawerItem(tittle: 'Promo Codes', onpresed: (){}),
+              HomeController().buildDrawerItem(tittle: 'Settings', onpresed: (){}),
+              HomeController().buildDrawerItem(tittle: 'Support', onpresed: (){}),
+              HomeController().buildDrawerItem(tittle: 'Log Out', onpresed: (){}),
+            ],
+          ),
+        ),
+        Spacer(),
+        Divider(),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+          child: Column(
+            children: [
+              HomeController().buildDrawerItem(tittle: 'Do More', onpresed: (){},fontSize: 12,
+              fontWeight: FontWeight.bold,Color: Colors.black.withOpacity(0.15),height: 20),
+              SizedBox(height: 20,),
+              HomeController().buildDrawerItem(tittle: 'Get Food Delivery', onpresed: (){},fontSize: 12,
+                  fontWeight: FontWeight.bold,Color: Colors.black.withOpacity(0.15),height: 20),
+              HomeController().buildDrawerItem(tittle: 'Make Money Driving', onpresed: (){},fontSize: 12,
+                  fontWeight: FontWeight.bold,Color: Colors.black.withOpacity(0.15),height: 20),
+              HomeController().buildDrawerItem(tittle: 'Rate Us On store', onpresed: (){},fontSize: 12,
+                  fontWeight: FontWeight.bold,Color: Colors.black.withOpacity(0.15),height: 20)
+            ],
+          ),
+        )
+      ],
+    ),
+  );
 }
 
 Widget buildProfileTile() {
