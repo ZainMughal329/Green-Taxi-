@@ -417,7 +417,7 @@ class HomeView extends GetView<HomeController> {
         children: [
           GestureDetector(
             onTap: () {
-              Get.offAndToNamed(RoutesNames.viewProfileScreen);
+              Get.toNamed(RoutesNames.viewProfileScreen);
             },
             child: Obx(() => Container(
               height: 150,

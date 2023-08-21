@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:green_taxi/screens/home/controller.dart';
 import 'package:green_taxi/screens/profile/state.dart';
 import 'package:green_taxi/screens/view_profile/index.dart';
 import 'package:green_taxi/utilities/routes/route_name.dart';
@@ -15,19 +16,20 @@ class ViewProfileController extends GetxController {
   final state = ViewProfileState();
 
 
+  ViewProfileController();
+
+  final con = Get.put(HomeController());
+
   @override
   void onInit() {
-    // TODO: implement onInit
     super.onInit();
-    getUserData();
-    state.nameController.text = myUser.value.name ?? "";
-    state.homeController.text = myUser.value.hAddress ?? "";
-    state.businessController.text = myUser.value.bAddress ?? "";
-    state.shopController.text = myUser.value.mallAddress ?? "";
+    state.nameController.text = con.myUser.value.name ?? "";
+    state.homeController.text = con.myUser.value.hAddress ?? "";
+    state.businessController.text = con.myUser.value.bAddress ?? "";
+    state.shopController.text = con.myUser.value.mallAddress ?? "";
 
   }
 
-  ViewProfileController();
 
 
 
@@ -119,38 +121,36 @@ class ViewProfileController extends GetxController {
     return userProfileImage;
   }
 
-  showUserInfo() async {
+  showUserInfo(
+      XFile? selectedImage ,String name , String home , String business , String shop , {String url = ''}
+      ) async {
     print('object');
     setLoading(true);
-    String url = await uploadImage(File(image!.path).absolute);
-    print('url is : ' + url.toString());
+    String newUrl = url;
+    if(selectedImage!= null) {
+      newUrl = await uploadImage(File(image!.path).absolute);
+      print('url is : ' + url.toString());
+
+    }
+
     String uid = FirebaseAuth.instance.currentUser!.uid.toString();
     print('object11');
     FirebaseFirestore.instance.collection('users').doc(uid).set({
-      'image': url,
-      'name': state.nameController.value.text,
-      'home_address': state.homeController.value.text,
-      'business_address': state.businessController.value.text,
-      'shopping_address': state.shopController.value.text,
+      'image': newUrl,
+      'name': name,
+      'home_address': home,
+      'business_address': business,
+      'shopping_address': shop,
     }).then((value) {
       print('object1122');
-      state.nameController.clear();
-      state.businessController.clear();
-      state.homeController.clear();
-      state.shopController.clear();
+      // state.nameController.clear();
+      // state.businessController.clear();
+      // state.homeController.clear();
+      // state.shopController.clear();
       Get.toNamed(RoutesNames.HomeScreen);
+
       setLoading(false);
     });
   }
 
-  var myUser = UserModel().obs;
-
-  getUserData() {
-    String uid = FirebaseAuth.instance.currentUser!.uid;
-    FirebaseFirestore.instance.collection('users').doc(uid).snapshots().listen((
-        event) {
-      myUser.value = UserModel.fromJson(event.data()!);
-    },);
-    print('User data is : ' + myUser.value.toString());
-  }
 }

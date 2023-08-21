@@ -10,7 +10,7 @@ import 'package:green_taxi/utilities/utils/app_colors.dart';
 import '../../utilities/widgets/green_intro_widget_without_logo.dart';
 
 class ViewProfileScreen extends GetView<ViewProfileController> {
- ViewProfileScreen({Key? key}) : super(key: key);
+  ViewProfileScreen({Key? key}) : super(key: key);
 
   // ProfileController profileController = Get.put(ProfileController());
 
@@ -31,50 +31,57 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                   greenIntroWidgetWithOutLogo(),
                   Align(
                     alignment: Alignment.bottomCenter,
-                    child:
-                    // GetBuilder<ProfileController>(builder: (con) {
-                      // return GestureDetector(
-                      //   // onTap: () {
-                      //   //   // con.getImage(ImageSource.camera);
-                      //   //   con.showImage(context);
-                      //   // },
-                      //   child:
-                      //   // con.image == null
-                      //       // ?
-                        Container(
+                    child: GetBuilder<ViewProfileController>(builder: (con) {
+                      return GestureDetector(
+                        onTap: () {
+                          // con.getImage(ImageSource.camera);
+                          con.showImage(context);
+                        },
+                        child: con.image == null
+                            ? controller.con.myUser.value.image != null
+                                ? Container(
+                                    width: 120,
+                                    height: 120,
+                                    margin: EdgeInsets.only(bottom: 20),
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(controller
+                                                .con.myUser.value.image!),
+                                            fit: BoxFit.fill),
+                                        shape: BoxShape.circle,
+                                        color: Color(0xffD6D6D6)),
+                                  )
+                                : Container(
+                                    width: 120,
+                                    height: 120,
+                                    margin: EdgeInsets.only(bottom: 20),
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xffD6D6D6)),
+                                    child: Center(
+                                      child: Icon(Icons.camera_alt_outlined,
+                                          size: 40, color: Colors.white),
+                                    ),
+                                  )
+                            : Container(
                                 width: 120,
                                 height: 120,
                                 margin: EdgeInsets.only(bottom: 20),
                                 decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0xffD6D6D6)),
-                                child: Center(
-                                  child: Icon(Icons.camera_alt_outlined,
-                                      size: 40, color: Colors.white),
+                                  shape: BoxShape.circle,
+                                  color: Color(0xffD6D6D6),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(100),
+                                  child: Image.file(
+                                    File(con.image!.path).absolute,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                      //       // :
-                      //   Container(
-                      //           width: 120,
-                      //           height: 120,
-                      //           margin: EdgeInsets.only(bottom: 20),
-                      //           decoration: BoxDecoration(
-                      //             shape: BoxShape.circle,
-                      //             color: Color(0xffD6D6D6),
-                      //           ),
-                      //           child: ClipRRect(
-                      //             borderRadius: BorderRadius.circular(100),
-                      //             child: Image.file(
-                      //               File(con.image!.path).absolute,
-                      //               fit: BoxFit.cover,
-                      //             ),
-                      //           ),
-                      //         ),
-                      // );
-
-                    // }),
+                      );
+                    }),
                   )
-
                 ],
               ),
             ),
@@ -88,78 +95,89 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
                 child: Column(
                   children: [
                     ReusedTextFormField(
-                        'Name',
-                        Icons.person_outline,
-                        TextInputAction.next,
-                        controller.state.nameController, (String? input) {
-                      if(input!.isEmpty){
-                        return 'Name is required!';
-                      }
+                      'Name',
+                      Icons.person_outline,
+                      TextInputAction.next,
+                      controller.state.nameController,
+                      (String? input) {
+                        if (input!.isEmpty) {
+                          return 'Name is required!';
+                        }
 
-                      if(input.length < 3) {
-                        return 'Length must be greater then 3!';
-                      }
-                      return null;
-                    },),
+                        if (input.length < 3) {
+                          return 'Length must be greater then 3!';
+                        }
+                        return null;
+                      },
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     ReusedTextFormField(
-                        'Home Address',
-                        Icons.home_outlined,
-                        TextInputAction.next,
-                        controller.state.homeController , (String? input) {
-                          if(input!.isEmpty){
-                            return 'Home Address is required!';
-                          }
-                          return null;
-                    },) ,
+                      'Home Address',
+                      Icons.home_outlined,
+                      TextInputAction.next,
+                      controller.state.homeController,
+                      (String? input) {
+                        if (input!.isEmpty) {
+                          return 'Home Address is required!';
+                        }
+                        return null;
+                      },
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     ReusedTextFormField(
-                        'Business Address',
-                        Icons.card_travel,
-                        TextInputAction.next,
-                        controller.state.businessController, (String? input) {
-                      if(input!.isEmpty){
-                        return 'Business Address is required!';
-                      }
-                      return null;
-                    },),
+                      'Business Address',
+                      Icons.card_travel,
+                      TextInputAction.next,
+                      controller.state.businessController,
+                      (String? input) {
+                        if (input!.isEmpty) {
+                          return 'Business Address is required!';
+                        }
+                        return null;
+                      },
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     ReusedTextFormField(
-                        'Shopping Center',
-                        Icons.shopping_cart,
-                        TextInputAction.done,
-                        controller.state.shopController, (String? input) {
-                      if(input!.isEmpty){
-                        return 'Shopping center address is required!';
-                      }
-                      return null;
-                    },),
+                      'Shopping Center',
+                      Icons.shopping_cart,
+                      TextInputAction.done,
+                      controller.state.shopController,
+                      (String? input) {
+                        if (input!.isEmpty) {
+                          return 'Shopping center address is required!';
+                        }
+                        return null;
+                      },
+                    ),
                     SizedBox(
                       height: 10,
                     ),
-
                     greenButton(
-                              'Submit',
-                              Function,
-                              () {
-                                if(!formKey.currentState!.validate()) {
-                                  return null;
-                                }
-                                if(controller.image == null) {
-                                  Get.snackbar('Error', 'Image is required');
-                                  return;
-                                }
-                                controller.showUserInfo();
+                      'Update',
 
-                              },
-                            ),
+                      Function,
+                      () {
+                        if (!formKey.currentState!.validate()) {
+                          return null;
+                        }
 
+                        controller.showUserInfo(
+                          controller.image,
+                          controller.state.nameController.text,
+                          controller.state.homeController.text,
+                          controller.state.businessController.text,
+                          controller.state.shopController.text,
+                          url: controller.con.myUser.value.image ?? "",
+                        );
+                      },
+                      controller.state.isLoading.value,
+                    ),
                   ],
                 ),
               ),
@@ -172,7 +190,7 @@ class ViewProfileScreen extends GetView<ViewProfileController> {
 }
 
 ReusedTextFormField(String tittle, IconData iconData, TextInputAction action,
-    TextEditingController controller, Function validator)  {
+    TextEditingController controller, Function validator) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -222,13 +240,16 @@ ReusedTextFormField(String tittle, IconData iconData, TextInputAction action,
     ],
   );
 }
-Widget greenButton(String tittle, Function, onPrssed) {
+
+Widget greenButton(String tittle, Function, onPrssed , bool isLoading) {
   return MaterialButton(
     minWidth: Get.width,
     height: 50,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
     color: AppColors.greenColor,
-    child: Text(
+    child: isLoading == true ? Center(
+      child: CircularProgressIndicator(),
+    ) : Text(
       tittle,
       style: GoogleFonts.poppins(
           fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xffD6D6D6)),
