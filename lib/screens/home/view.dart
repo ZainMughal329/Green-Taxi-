@@ -7,7 +7,7 @@ import 'package:google_maps_webservice/places.dart';
 import 'package:green_taxi/screens/home/controller.dart';
 import 'package:green_taxi/screens/home/state.dart';
 import 'package:green_taxi/utilities/routes/route_name.dart';
-
+import 'package:geocoding/geocoding.dart' as geoCoding;
 import '../../utilities/utils/app_colors.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -38,13 +38,33 @@ class HomeView extends GetView<HomeController> {
             controller: controller.state.placeController,
             readOnly: true,
             onTap: () async {
+              Get.back();
               dynamic p = await controller.showGoogleAutoComplete(context);
               print('object43re');
               String selectedPlace = p!.description.toString();
               // destinationController.text = selectedPlace;
               print('place:' + selectedPlace);
               controller.state.placeController.text = selectedPlace;
-              // HomeState().showSourceField.value = true;
+              List<geoCoding.Location> location =
+                  await geoCoding.locationFromAddress(selectedPlace);
+              controller.state.source =
+                  LatLng(location.first.latitude, location.first.longitude);
+              if(controller.state.markers.length>=2){
+                controller.state.markers.remove(controller.state.markers.last);
+              }
+              controller.state.markers.add(
+                Marker(
+                    markerId: MarkerId(selectedPlace),
+                    infoWindow: InfoWindow(title: 'Destination:$selectedPlace'),
+                    position: controller.state.source,
+                  icon: BitmapDescriptor.fromBytes(controller.state.markIcons)
+                ),
+              );
+              controller.drawPolyLine(selectedPlace);
+              controller.state.mapController!.animateCamera(
+                CameraUpdate.newCameraPosition(CameraPosition(target: controller.state.source,zoom: 14))
+              );
+               HomeState().showSourceField.value = true;
             },
             style: GoogleFonts.poppins(
                 fontSize: 14,
@@ -420,63 +440,63 @@ class HomeView extends GetView<HomeController> {
               Get.toNamed(RoutesNames.viewProfileScreen);
             },
             child: Obx(() => Container(
-              height: 150,
-              child: DrawerHeader(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  controller.myUser.value.image == null
-                      ? Container(
-                          height: 50.h,
-                          width: 50.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey.withOpacity(0.5),
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.person,
-                              size: 30,
-                            ),
-                          ),
-                        )
-                      : Container(
-                          height: 50.h,
-                          width: 50.w,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage(
-                                    controller.myUser.value.image!),
-                                fit: BoxFit.fill),
-                            // color: Colors.grey.withOpacity(0.5),
-                          ),
-                        ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  height: 150,
+                  child: DrawerHeader(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Text(
-                        'Good Morning',
-                        style: GoogleFonts.poppins(
-                            color: Colors.black.withOpacity(0.28),
-                            fontSize: 12),
+                      controller.myUser.value.image == null
+                          ? Container(
+                              height: 50.h,
+                              width: 50.w,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.grey.withOpacity(0.5),
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.person,
+                                  size: 30,
+                                ),
+                              ),
+                            )
+                          : Container(
+                              height: 50.h,
+                              width: 50.w,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        controller.myUser.value.image!),
+                                    fit: BoxFit.fill),
+                                // color: Colors.grey.withOpacity(0.5),
+                              ),
+                            ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Good Morning',
+                            style: GoogleFonts.poppins(
+                                color: Colors.black.withOpacity(0.28),
+                                fontSize: 12),
+                          ),
+                          Text(
+                            controller.myUser.value.name == null
+                                ? 'Mark'
+                                : controller.myUser.value.name!,
+                            style: GoogleFonts.poppins(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                          )
+                        ],
                       ),
-                      Text(
-                        controller.myUser.value.name == null
-                            ? 'Mark'
-                            : controller.myUser.value.name!,
-                        style: GoogleFonts.poppins(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      )
                     ],
-                  ),
-                ],
-              )),
-            )),
+                  )),
+                )),
           ),
           SizedBox(
             height: 20,
@@ -596,6 +616,7 @@ class HomeView extends GetView<HomeController> {
               child: GoogleMap(
                 //when you apply custom map then map are not used
                 zoomControlsEnabled: false,
+                markers: controller.state.markers,
                 onMapCreated: (GoogleMapController con) {
                   controller.state.mapController = con;
                   controller.state.mapController!
