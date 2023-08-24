@@ -33,13 +33,10 @@ class HomeController extends GetxController {
     getUserData();
     loadCustomMarker();
   }
-
-
-
   // function for auto search plces
   Future<String> showGoogleAutoComplete(BuildContext context) async {
     showSourceField(true);
-    const KGoogleApiKey = "AIzaSyCaEiMGTAmMYlLZogzcwRUZwCkPspFp6zI";
+    const KGoogleApiKey = "AIzaSyBB34ETGgqbdUe4LRRcNF7lmY8XWdFE7NM";
     print('object431');
     Prediction? p = await PlacesAutocomplete.show(
         context: context,
